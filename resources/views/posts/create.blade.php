@@ -2,10 +2,9 @@
 
 @section('title', '| Create Post')
 
-{{-- @section('stylesheets')
+@section('stylesheets')
 	{!! Html::style('css/parsley.css') !!}
-	{!! Html::style('../css/app.css') !!}
-@endsection --}}
+@endsection
 
 
 @section('content')
@@ -18,6 +17,9 @@
 			{!! Form::open(['route'=>'posts.store', 'data-parsley-validate' => ""]) !!}
 				{!! Form::label('title', 'Title:') !!}
 				{!! Form::text('title', null, ['class' => 'form-control', 'required' => '', 'minLength' => '3', 'maxLength' => '255']) !!}
+
+				{!! Form::label('slug', 'Slug:') !!}
+				{!! Form::text('slug', null, ['class' => 'form-control', 'required' => '', 'minLength' => '5', 'maxLength' => '255']) !!}
 
 				{!! Form::label('body', 'Post content:') !!}
 				{!! Form::textarea('body', null, ['class' => 'form-control', 'required' => '']) !!}

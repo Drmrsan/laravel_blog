@@ -39,12 +39,14 @@ class PostController extends Controller
     {
        $this->validate($request, [
             'title' => 'required|min:3|max:255',
+            'slug'  => 'required|alpha_dash|min:5|max:255|unique:posts,slug',
             'body'  => 'required'
        ]);
 
        $post = new Post;
 
        $post->title = $request->title;
+       $post->slug  = $request->slug;
        $post->body  = $request->body;
 
        $post->save();
@@ -89,12 +91,14 @@ class PostController extends Controller
     {
         $this->validate($request, [
             'title' => 'required|min:3|max:255',
+            'slug'  => 'required|min:5|max:255|unique:posts,slug',
             'body'  => 'required'
         ]);
 
         $post = Post::find($id);
 
         $post->title = $request->input('title');
+        $post->slug  = $request->input('slug');
         $post->body  = $request->input('body');
 
         $post->save();
