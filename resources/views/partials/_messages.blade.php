@@ -1,10 +1,21 @@
-@if (Session::has('success'))
+@if (session()->has('success'))
 	
 	<div class="alert alert-success" role="alert" >
-		<strong>Success:</strong> {{ Session::get('success') }}
+		{{ session()->get('success') }}
 	</div>
 
 @endif
+
+
+@if (session()->has('logout-flash'))
+	
+	<div class="alert alert-warning" role="alert" >
+		{{ session()->get('logout-flash') }}
+	</div>
+
+@endif
+
+
 
 @if (count($errors) > 0)
 	

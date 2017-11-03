@@ -17,6 +17,9 @@ Route::get('about', 'PagesController@getAbout');
 Route::get('contact', 'PagesController@getContact');
 Route::resource('posts', 'PostController');
 
+//Categories
+Route::resource('categories', 'CategoryController', ['except' => ['create']]);
+
 //blog index route
 Route::get('blog', [ 'as' => 'blog.index', 'uses' => 'BlogController@getIndex']);
 //blog single post page

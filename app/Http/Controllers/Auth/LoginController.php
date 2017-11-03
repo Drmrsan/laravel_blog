@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -25,7 +27,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/blog';
+    protected $redirectTo = '/posts';
 
     /**
      * Create a new controller instance.
@@ -36,4 +38,23 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+
+    // Flash message after User signed in
+    protected function authenticated(Request $request, $user)
+
+    {
+        $request->session()->flash('success', 'You have loged in!');
+    }
+
+
+    // Flash message after User is logged out
+     public function logout(Request $request)
+    {
+        $this->guard()->logout();
+        $request->session()->invalidate();
+        $request->session()->flash('logout-flash', 'You are logged out!');
+        return redirect('/');
+    }
+
 }
