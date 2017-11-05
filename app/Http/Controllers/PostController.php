@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Post;
 use App\Category;
+use App\Tag;
 use Session;
 
 
 class PostController extends Controller
 {
-    
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -35,7 +36,8 @@ class PostController extends Controller
     public function create()
     {
         $categories = Category::pluck('name','id');
-        return view('posts.create')->withCategories($categories);
+        $tags = Tag::pluck('name', 'id');
+        return view('posts.create')->withCategories($categories)->withTags($tags);
     }
 
     /**
@@ -46,6 +48,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+
        $this->validate($request, [
             'title'       => 'required|min:3|max:255',
             'slug'        => 'required|alpha_dash|min:5|max:255|unique:posts,slug',
@@ -61,6 +64,8 @@ class PostController extends Controller
        $post->body        = $request->body;
 
        $post->save();
+
+       $post->tags()->sync($request->tags, false);
 
        Session::flash('success', 'The blog post was successfully save!');
 
@@ -89,7 +94,8 @@ class PostController extends Controller
     {
         $post = Post::find($id);
         $categories = Category::pluck('name','id');
-        return view('posts.edit')->withPost($post)->withCategories($categories);
+        $tags = Tag::pluck('name', 'id');
+        return view('posts.edit')->withPost($post)->withCategories($categories)->withTags($tags);
     }
 
     /**
@@ -101,7 +107,7 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+
         $post = Post::find($id);
 
         if ($request->input('slug') == $post->slug) {
@@ -111,9 +117,9 @@ class PostController extends Controller
              'category_id' => 'required|integer',
              'body'  => 'required'
             ]);
-           
+
         }else{
-            
+
             $this->validate($request, [
                 'title' => 'required|min:3|max:255',
                 'slug'  => 'required|min:5|max:255|unique:posts,slug',
@@ -122,7 +128,7 @@ class PostController extends Controller
             ]);
 
         }
-        
+
 
         $post = Post::find($id);
 
@@ -132,6 +138,14 @@ class PostController extends Controller
         $post->body        = $request->input('body');
 
         $post->save();
+
+        if (isset($post->tags)) {
+            $post->tags()->sync($request->tags);
+        } else {
+            $post->tags()->sync([]);
+        }
+
+        
 
         Session::flash('success', 'This post was successfully saved.');
 

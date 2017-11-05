@@ -20,6 +20,9 @@ Route::resource('posts', 'PostController');
 //Categories
 Route::resource('categories', 'CategoryController', ['except' => ['create']]);
 
+//Tag Routes
+Route::resource('tags', 'TagController', ['except' => ['create']]);
+
 //blog index route
 Route::get('blog', [ 'as' => 'blog.index', 'uses' => 'BlogController@getIndex']);
 //blog single post page

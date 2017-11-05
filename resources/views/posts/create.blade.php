@@ -8,7 +8,7 @@
 
 
 @section('content')
-	
+
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
 			<h1>Create New Post</h1>
@@ -21,9 +21,11 @@
 				{!! Form::label('slug', 'Slug:') !!}
 				{!! Form::text('slug', null, ['class' => 'form-control', 'required' => '', 'minLength' => '5', 'maxLength' => '255']) !!}
 
-				{!! Form::label('category_id', 'Category:') !!}				
+				{!! Form::label('category_id', 'Category:') !!}
 				{!! Form::select('category_id', $categories, null, ['class' => 'form-control']) !!}
 
+				{!! Form::label('tags', 'Tags:') !!}
+				{!! Form::select('tags[]', $tags, null, ['class' => 'form-control select2-multiple', 'multiple' => 'multiple']) !!}
 
 				{!! Form::label('body', 'Post content:') !!}
 				{!! Form::textarea('body', null, ['class' => 'form-control', 'required' => '']) !!}
