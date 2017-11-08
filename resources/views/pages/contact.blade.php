@@ -1,4 +1,4 @@
-@extends('../layouts.app')
+@extends('layouts.app')
 
 @section('title', '| Contact')
 
@@ -11,7 +11,8 @@
     			
     			<hr>
 
-				<form action="">
+				<form action="{{ url('contact') }}" method="POST">
+					{{ csrf_field() }}
 					<div class="form-group">
 						<label for="">Email:</label>
 						<input type="email" id="email" name="email" class="form-control">
@@ -24,7 +25,7 @@
 
 					<div class="form-group">
 						<label for="">Message:</label>
-						<textarea type="text" id="message" class="form-control"></textarea>
+						<textarea type="text" id="message" name="message" class="form-control"></textarea>
 					</div>
 
 					<input type="submit" class="btn btn-success">
