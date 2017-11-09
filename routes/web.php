@@ -20,6 +20,11 @@ Route::post('contact', 'PagesController@postContact');
 
 Route::resource('posts', 'PostController');
 
+// Route::resource('posts.comments', 'PostCommentsController');
+//commments
+// Route::resource('comments', 'CommentController');
+Route::post('comments/{post_id}', ['uses' => 'CommentController@store', 'as' => 'comments.store']);
+
 //Categories
 Route::resource('categories', 'CategoryController', ['except' => ['create']]);
 
